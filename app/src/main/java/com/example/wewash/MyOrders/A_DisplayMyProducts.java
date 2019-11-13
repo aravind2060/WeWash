@@ -33,40 +33,67 @@ import java.util.Map;
 public class A_DisplayMyProducts extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    private  MyAdapter myAdapter;
-    List<D_OrdersData> dOrdersDataArrayList;
+    MyAdapter myAdapter;
     String progressbar="";
     String UKey="";
-    LinearLayoutManager llm = new LinearLayoutManager(this);
+    ArrayList<D_OrdersData> dOrdersDataArrayList=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_a__display_my_products);
         recyclerView=findViewById(R.id.RecyclerViewMyOrders);
-        recyclerView.setLayoutManager(llm);
-
-       dOrdersDataArrayList= getDataFromFireBase();
-
-
-
+        LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(manager);
+        myAdapter=new MyAdapter(dOrdersDataArrayList);
+        recyclerView.setAdapter(myAdapter);
+        getDataFromFireBase();
         Toast.makeText(this, "Size :"+dOrdersDataArrayList.size(), Toast.LENGTH_SHORT).show();
     }
-  private ArrayList<D_OrdersData> getDataFromFireBase()
+  private void getDataFromFireBase()
   {
-      final ArrayList<D_OrdersData> arrayList=new ArrayList<>();
-
       DatabaseReference dataKeyReference = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-      dataKeyReference.child("MyOrders").addValueEventListener(new ValueEventListener() {
+      final DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference("Admin").child("Orders").child("DisplayOrders");
+      dataKeyReference.child("MyOrders").addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-              for (DataSnapshot dataSnapshot2:dataSnapshot.getChildren()) {
+              for (DataSnapshot dataSnapshot2:dataSnapshot.getChildren())
+              {
                   if (dataSnapshot2.exists()) {
-
                       String key1 = dataSnapshot2.child("key").getValue(String.class);
+                      databaseReference.child(key1).addListenerForSingleValueEvent(new ValueEventListener() {
+                          @Override
+                          public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
+                                  if (dataSnapshot1.exists()) {
+                                      String address = dataSnapshot1.child("address").getValue(String.class);
+                                      String area = dataSnapshot1.child("area").getValue(String.class);
+                                      String dateBooked = dataSnapshot1.child("dateBooked").getValue(String.class);
+                                      String expectedPickupTime = dataSnapshot1.child("expectedPickupTime").getValue(String.class);
+                                      String name = dataSnapshot1.child("name").getValue(String.class);
+                                      String noOfClothes = dataSnapshot1.child("noOfClothes").getValue(String.class);
+                                      String orderId = dataSnapshot1.child("orderId").getValue(String.class);
+                                      String phone = dataSnapshot1.child("phone").getValue(String.class);
+                                      String status = dataSnapshot1.child("status").getValue(String.class);
+                                      String progress = dataSnapshot1.child("progress").getValue(String.class);
+                                      String key = dataSnapshot1.child("key").getValue(String.class);
+                                      progressbar=progress;
+                                      D_OrdersData displayOrders=new D_OrdersData(address, area,dateBooked, expectedPickupTime, name, noOfClothes, orderId, phone, status,progress,key);
+                                      dOrdersDataArrayList.add(displayOrders);
 
-                      UKey=key1;
+                                  }
+
+                          }
+
+                          @Override
+                          public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                          }
+                      });
+
                   }
-                  }
+
+              }
 
           }
 
@@ -75,49 +102,7 @@ public class A_DisplayMyProducts extends AppCompatActivity {
 
           }
       });
-      DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference("Admin").child("Orders").child("DisplayOrders").child(UKey);
-      databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-          @Override
-          public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren()) {
-                    if (dataSnapshot1.exists()) {
-                        String address = dataSnapshot1.child("address").getValue(String.class);
-                        String area = dataSnapshot1.child("area").getValue(String.class);
-                        String dateBooked = dataSnapshot1.child("dateBooked").getValue(String.class);
-                        String expectedPickupTime = dataSnapshot1.child("expectedPickupTime").getValue(String.class);
-                        String name = dataSnapshot1.child("name").getValue(String.class);
-                        String noOfClothes = dataSnapshot1.child("noOfClothes").getValue(String.class);
-                        String orderId = dataSnapshot1.child("orderId").getValue(String.class);
-                        String phone = dataSnapshot1.child("phone").getValue(String.class);
-                        String status = dataSnapshot1.child("status").getValue(String.class);
-                        String progress = dataSnapshot1.child("progress").getValue(String.class);
-                        String key = dataSnapshot1.child("key").getValue(String.class);
-
-                        progressbar=progress;
-
-
-
-                        D_OrdersData displayOrders=new D_OrdersData(address, area,dateBooked, expectedPickupTime, name, noOfClothes, orderId, phone, status,progress,key);
-                        arrayList.add(displayOrders);
-
-                        //arrayList.add( new D_OrdersData(address, area,dateBooked, expectedPickupTime, name, noOfClothes, orderId, phone, status,progress,key));
-                         //dOrdersDataArrayList.add( dataSnapshot1.getValue(D_OrdersData.class));
-
-                    }
-
-
-                }
-          }
-
-          @Override
-          public void onCancelled(@NonNull DatabaseError databaseError) {
-
-          }
-      });
-
-      return arrayList;
+      myAdapter.notifyDataSetChanged();
   }
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolderClass>
@@ -138,7 +123,7 @@ public class A_DisplayMyProducts extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return 0;
+            return arrayList.size();
         }
 
         @Override
@@ -153,9 +138,6 @@ public class A_DisplayMyProducts extends AppCompatActivity {
             holder.area.setText(arrayList.get(position).area);
             holder.id.setText(arrayList.get(position).orderId);
             holder.pb.setProgress(Integer.parseInt(progressbar));
-
-
-
         }
 
         private class ViewHolderClass extends RecyclerView.ViewHolder {

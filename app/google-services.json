@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "547153866761",
+    "firebase_url": "https://wewash-a5480.firebaseio.com",
+    "project_id": "wewash-a5480",
+    "storage_bucket": "wewash-a5480.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547153866761:android:7862bdaae9092d361408d8",
+        "android_client_info": {
+          "package_name": "com.example.wewash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547153866761-9up1t414tulb3oaa5pdhkf1q74t4qj28.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wewash",
+            "certificate_hash": "469039eaa09592cb81a3ef214209f205f6660f76"
+          }
+        },
+        {
+          "client_id": "547153866761-d7fo9pt3rb2v2rft1c6pjg0p323mmvu3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiynUYJOGzwZ4XVsYmh9vzW5WVzl6qBTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547153866761-d7fo9pt3rb2v2rft1c6pjg0p323mmvu3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

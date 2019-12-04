@@ -145,7 +145,7 @@ public class MyProfile extends AppCompatActivity {
     public void Delete(View view) {
         builder = new AlertDialog.Builder(MyProfile.this);
         builder.setTitle("Are you sure you want to Delete?");
-        builder.setMessage("To delete your account data permanently,click on Yes or else you can choose No").setCancelable(false);
+        builder.setMessage("Click on Yes to delete your account data permanently or else you can choose No").setCancelable(false);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -158,7 +158,8 @@ public class MyProfile extends AppCompatActivity {
                 finish();
             }
         });
-
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
 //        DeleteProfile
     }
 

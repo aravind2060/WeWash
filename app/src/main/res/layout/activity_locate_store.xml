@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/Toolbar_SignUp_Page"
+        android:id="@+id/LocateTool"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/DodgerBlue"
@@ -90,15 +90,28 @@
             android:id="@+id/store_phone"/>
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_below="@+id/store_phone"
-            android:background="@drawable/buttons"
+            android:background="@color/DodgerBlue"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:text="@string/Locate_Map"
+            android:textColor="@color/white"
             android:id="@+id/locate_map"
             android:onClick="LocateMap"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/locate_map"
+            android:background="@color/DodgerBlue"
+            android:textColor="@color/white"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Call the store"
+            android:id="@+id/call_store"
+            android:onClick="callstore"/>
 
 
     </RelativeLayout>

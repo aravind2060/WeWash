@@ -12,4 +12,8 @@
     <color name="DarkGreen">#4C9A2A</color>
     <color name="Black">#000</color>
     <color name="LigherGray">#676767</color>
+
+    <color name="grey">#253A48</color>
+    <color name="light_grey">#E8EBEC</color>
+    <color name="red">#F23B5F</color>
 </resources>

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.wewash.D_CurrentUser;
 import com.example.wewash.MainActivity;
 import com.example.wewash.R;
+import com.example.wewash.Splash1Activity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -55,13 +57,9 @@ public class A_SignIn extends AppCompatActivity implements View.OnClickListener 
     TextView SignUp,ResetPassword;
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
-                    //"(?=.*[0-9])" +         //at least 1 digit
-                    //"(?=.*[a-z])" +         //at least 1 lower case letter
-                    //"(?=.*[A-Z])" +         //at least 1 upper case letter
                     "(?=.*[a-zA-Z])" +      //any letter
-                    //"(?=.*[@#$%^&+=])" +    //at least 1 special character
                     "(?=\\S+$)" +           //no white spaces
-                    ".{6,}" +               //at least 4 characters
+                    ".{6,}" +               //at least 6 characters
                     "$");
 
     public static final int RC_SIGN_IN=9001;
@@ -275,19 +273,27 @@ public class A_SignIn extends AppCompatActivity implements View.OnClickListener 
      */
     public void checkEmailAndPasswordInFireabseDatabase(String EmailData, String PasswordData)
     {
+        final ProgressDialog progressDialog = new ProgressDialog(A_SignIn.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Logging In");
+        progressDialog.setMessage("Please wait while we are checking your credentials");
+        progressDialog.show();
         firebaseAuth.signInWithEmailAndPassword(EmailData,PasswordData).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful())
                 {
+
                     if (firebaseAuth.getCurrentUser().isEmailVerified())
                     {
                         new ASyncTaskToFetchCurrentUserData().execute();
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"Login Success",Toast.LENGTH_LONG).show();
                         startActivity(new Intent(getApplicationContext(),MainActivity.class));
                     }
                     else
                     {
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"Email Not verified please Verify Your Email",Toast.LENGTH_LONG).show();
                         Log.i("A_SIGIN","Email Not verified");
                     }
@@ -301,14 +307,17 @@ public class A_SignIn extends AppCompatActivity implements View.OnClickListener 
                     {
                         if (e instanceof FirebaseAuthInvalidCredentialsException)
                         {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(),"Invalid Credentials ",Toast.LENGTH_LONG).show();
                             Log.e("A_SIGNIN","Invalid credentials");
                         }
                         else if (e instanceof FirebaseAuthInvalidUserException)
                         {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(),"Account does not exist",Toast.LENGTH_LONG).show();
                         }
                         else if (e instanceof FirebaseNetworkException) {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Unable to reach firebase", Toast.LENGTH_LONG).show();
                         }
                         else if (e instanceof FirebaseAuthProvider)
@@ -364,37 +373,22 @@ public class A_SignIn extends AppCompatActivity implements View.OnClickListener 
             return true;
     }
 
-//    private void getDataFromSharedPreferences()
-//    {
-//        SharedPreferences sharedPreferences=getSharedPreferences("CurrentLoggedInUserDetails",0);
-//        String EmailData=sharedPreferences.getString("Email","");
-//        if (!TextUtils.isEmpty(EmailData))
-//        {
-//            D_CurrentUser.setEmail(EmailData);
-//            D_CurrentUser.setName(sharedPreferences.getString("name",""));
-//            D_CurrentUser.setPhoneNumber(sharedPreferences.getString("Phone",""));
-//        }
-//    }
-//    private  void setDataIntoSharedPreference()
-//    {
-//        SharedPreferences sharedPreferences=getSharedPreferences("CurrentLoggedInUserDetails",0);
-//        SharedPreferences.Editor editor=sharedPreferences.edit();
-//        editor.putString("name",D_CurrentUser.getName());
-//        editor.putString("Email",D_CurrentUser.getEmail());
-//        editor.putString("Gender",D_CurrentUser.getGender());
-//        editor.putString("Phone",D_CurrentUser.getPhone());
-//        editor.putInt("noOfAddress",D_CurrentUser.getNoOfAddress());
-//        editor.putInt("noOfWishListedProducts",D_CurrentUser.getNoOfWishListedProducts());
-//        editor.putInt("noOfPreviousOrders",D_CurrentUser.getNoOfPreviousOrders());
-//        editor.putInt("noOfProductsInCart",D_CurrentUser.getNoOfProductsInCart());
-//        editor.commit();
-//    }
 
     private void loadDataOfCurrentUserDataUsingAsyncTaskClass()
     {
         new ASyncTaskToFetchCurrentUserData().execute();
     }
 
+    public void back(View view) {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), Splash1Activity.class);
+        startActivity(intent);
+    }
 
     class ASyncTaskToFetchCurrentUserData extends AsyncTask<Void,Void,Void> {
 
@@ -411,7 +405,6 @@ public class A_SignIn extends AppCompatActivity implements View.OnClickListener 
                         if (d_currentUser!=null) {
                             setData(d_currentUser);
                             Log.e("ASTaskCurrentUserData",d_currentUser.Email);
-                            //setDataIntoSharedPreference();
                         }
                         else
                         {

@@ -4,22 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login.A_SignIn">
+    tools:context=".Login.A_SignIn"
+    android:background="@color/white">
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/logo"
-        android:id="@+id/LoginLogo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"/>
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:src="@drawable/back"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:onClick="back"
+        />
 
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Hello There!"
+      android:textSize="44sp"
+      android:fontFamily="@font/bold"
+      android:layout_marginTop="100dp"
+      android:layout_marginLeft="20dp"
+      android:textColor="@color/grey"
+      android:id="@+id/tv"/>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/sign_in_txt_layout_1"
-        android:layout_below="@id/LoginLogo"
+        android:layout_below="@id/tv"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         app:errorEnabled="true"
+        android:textColorHint="@color/grey"
+        android:background="@drawable/edit_text"
 
         >
         <com.google.android.material.textfield.TextInputEditText
@@ -27,6 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/Email_Address"
+            android:fontFamily="@font/regular"
+
             />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -34,8 +53,13 @@
         android:layout_below="@id/sign_in_txt_layout_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         app:errorEnabled="true"
         app:passwordToggleEnabled="true"
+        android:textColorHint="@color/grey"
+        android:background="@drawable/edit_text"
+        android:layout_marginTop="5dp"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sign_in_txt_edit_txt_password"
@@ -43,21 +67,24 @@
             android:layout_height="wrap_content"
             android:hint="@string/Password"
             android:inputType="textPassword"
+            android:fontFamily="@font/regular"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:background="@drawable/buttons"
-        android:textSize="15sp"
-        android:text="@string/common_signin_button_text"
-        android:textColor="@color/black"
+        android:background="@drawable/button"
+        android:textSize="20sp"
+        android:text="Login"
+        android:textColor="@color/white"
         android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:id="@+id/log_btn"
+        android:fontFamily="@font/bold"
+        android:textAllCaps="false"
         android:layout_below="@id/sign_in_txt_layout_2"
         />
     <com.google.android.gms.common.SignInButton
@@ -81,6 +108,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Donot_have_account"
+            android:fontFamily="@font/regular"
+            android:textSize="19sp"
             />
         <TextView
             android:id="@+id/Sign_In_txt_SignUP_Link"
@@ -88,33 +117,29 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
-            android:textColor="@color/Green"
+            android:textColor="@color/red"
             android:text="@string/Sign_Up"
+            android:fontFamily="@font/bold"
+            android:textSize="19sp"
             />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/Sign_In_LinearLayout_Reset_Password_Link"
-        android:layout_below="@id/Sign_In_LinearLayout_SignUp_Link"
+
+
+    <TextView
+        android:id="@+id/Sign_In_txt_Reset_Password_Link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="26dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Trouble_Logging_In"
-            />
-        <TextView
-            android:id="@+id/Sign_In_txt_Reset_Password_Link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:textColor="@color/Green"
-            android:text="@string/Reset"
-            />
-    </LinearLayout>
+        android:layout_below="@+id/sign_in_txt_layout_2"
+        android:layout_marginTop="35dp"
+        android:layout_toRightOf="@id/log_btn"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColorHint="@color/grey"
+        android:text="@string/Reset"
+        android:textColor="@color/red"
+        android:textSize="19sp"
+        android:fontFamily="@font/regular"
+        />
+
 
 </RelativeLayout>

@@ -5,10 +5,10 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 tools:context=".Profile.Profile">
-   <RelativeLayout
+    <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <androidx.appcompat.widget.Toolbar
+       <androidx.appcompat.widget.Toolbar
         android:id="@+id/Toolbar_Profile_Page"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

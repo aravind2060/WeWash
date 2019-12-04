@@ -2,10 +2,12 @@ package com.example.wewash.MyOrders;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.wewash.MainActivity;
 import com.example.wewash.MyOrders.A_InsertMyOrders;
 
 import com.example.wewash.R;
@@ -34,7 +38,8 @@ public class A_DisplayMyProducts extends AppCompatActivity {
 
     RecyclerView recyclerView;
     MyAdapter myAdapter;
-    String progressbar="";
+    Toolbar toolbar;
+    int progressbar=0;
     String UKey="";
     ArrayList<D_OrdersData> dOrdersDataArrayList=new ArrayList<>();
     @Override
@@ -42,6 +47,13 @@ public class A_DisplayMyProducts extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_a__display_my_products);
         recyclerView=findViewById(R.id.RecyclerViewMyOrders);
+        toolbar = findViewById(R.id.display_tool);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
@@ -49,7 +61,6 @@ public class A_DisplayMyProducts extends AppCompatActivity {
         myAdapter=new MyAdapter(dOrdersDataArrayList);
         recyclerView.setAdapter(myAdapter);
         getDataFromFireBase();
-        Toast.makeText(this, "Size :"+dOrdersDataArrayList.size(), Toast.LENGTH_SHORT).show();
     }
   private void getDataFromFireBase()
   {
@@ -75,15 +86,19 @@ public class A_DisplayMyProducts extends AppCompatActivity {
                                       String orderId = dataSnapshot1.child("orderId").getValue(String.class);
                                       String phone = dataSnapshot1.child("phone").getValue(String.class);
                                       String status = dataSnapshot1.child("status").getValue(String.class);
-                                      String progress = dataSnapshot1.child("progress").getValue(String.class);
+                                      Integer progress = dataSnapshot1.child("progress").getValue(Integer.class);
                                       String key = dataSnapshot1.child("key").getValue(String.class);
-                                      progressbar=progress;
-                                      D_OrdersData displayOrders=new D_OrdersData(address, area,dateBooked, expectedPickupTime, name, noOfClothes, orderId, phone, status,progress,key);
-                                      dOrdersDataArrayList.add(displayOrders);
+                                      String service=dataSnapshot1.child("service").getValue(String.class);
+                                      //progressbar=Integer.parseInt(progress);
+                                      D_OrdersData displayOrders=new D_OrdersData(address, area,dateBooked, expectedPickupTime, name, noOfClothes, orderId, phone, status,progress,key,service);
+                                      dOrdersDataArrayList.add(0,displayOrders);
 
                                   }
+                                  myAdapter.notifyItemInserted(0);
+                                  myAdapter.notifyDataSetChanged();
 
                           }
+
 
                           @Override
                           public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -102,7 +117,6 @@ public class A_DisplayMyProducts extends AppCompatActivity {
 
           }
       });
-      myAdapter.notifyDataSetChanged();
   }
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolderClass>
@@ -121,10 +135,7 @@ public class A_DisplayMyProducts extends AppCompatActivity {
             return new MyAdapter.ViewHolderClass(view);
         }
 
-        @Override
-        public int getItemCount() {
-            return arrayList.size();
-        }
+
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolderClass holder, int position) {
@@ -137,11 +148,17 @@ public class A_DisplayMyProducts extends AppCompatActivity {
             holder.clothes.setText(arrayList.get(position).noOfClothes);
             holder.area.setText(arrayList.get(position).area);
             holder.id.setText(arrayList.get(position).orderId);
-            holder.pb.setProgress(Integer.parseInt(progressbar));
+            holder.service.setText(arrayList.get(position).service);
+            holder.pb.setProgress(arrayList.get(position).progress);
+
+        }
+        @Override
+        public int getItemCount() {
+            return arrayList.size();
         }
 
         private class ViewHolderClass extends RecyclerView.ViewHolder {
-            TextView name, address, area, phone, clothes, date, time, id;
+            TextView name, address, area, phone, clothes, date, time, id,service;
             ProgressBar pb;
 
              ViewHolderClass(@NonNull View itemView) {
@@ -155,11 +172,15 @@ public class A_DisplayMyProducts extends AppCompatActivity {
                 date = itemView.findViewById(R.id.tv_date);
                 time = itemView.findViewById(R.id.tv_time);
                 id = itemView.findViewById(R.id.tv_order);
+                service = itemView.findViewById(R.id.tv_service);
                 pb=itemView.findViewById(R.id.pb);
 
             }
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(A_DisplayMyProducts.this, MainActivity.class));
+    }
 }

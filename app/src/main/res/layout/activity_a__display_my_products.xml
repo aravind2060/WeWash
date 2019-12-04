@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MyOrders.A_DisplayMyProducts">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/Profile_MyOrders"
+        android:id="@+id/display_tool"
+        android:background="@color/DodgerBlue"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_arrow_back_black"
+        >
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerViewMyOrders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/DodgerBlue"
         />
 
-</RelativeLayout>
+</LinearLayout>

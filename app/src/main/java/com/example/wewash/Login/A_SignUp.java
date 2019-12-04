@@ -1,22 +1,21 @@
 package com.example.wewash.Login;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.example.wewash.R;
+import com.example.wewash.Splash1Activity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -35,19 +34,17 @@ public class A_SignUp extends AppCompatActivity implements View.OnClickListener 
     TextInputLayout Name1,Email1,Phone1,Password1,ConfirmPassword1;
     TextInputEditText Name,Email,Phone,Password,ConfirmPassword;
     Button SignUp;
-    Toolbar toolbar;
+
     private static final Pattern USER_NAME_PATTERN= Pattern.compile("^[a-zA-Z ]{3,20}$",Pattern.CASE_INSENSITIVE);
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
-                    //"(?=.*[0-9])" +         //at least 1 digit
-                    //"(?=.*[a-z])" +         //at least 1 lower case letter
-                    //"(?=.*[A-Z])" +         //at least 1 upper case letter
                     "(?=.*[a-zA-Z])" +      //any letter
-                    //"(?=.*[@#$%^&+=])" +    //at least 1 special character
                     "(?=\\S+$)" +           //no white spaces
-                    ".{6,}" +               //at least 4 characters
+                    ".{6,}" +               //at least 6 characters
                     "$");
     private static final Pattern PHONE_NUMBER_PATTERN=Pattern.compile("^[9876][0-9]{9}$");
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +58,7 @@ public class A_SignUp extends AppCompatActivity implements View.OnClickListener 
         Phone1=findViewById(R.id.Sign_UP_Txt_Layout_3);
         Password1=findViewById(R.id.Sign_UP_Txt_Layout_4);
         ConfirmPassword1=findViewById(R.id.Sign_UP_Txt_Layout_5);
-        toolbar=findViewById(R.id.Toolbar_SignUp_Page);
+
         Name=findViewById(R.id.Sign_Up_Txt_EditTxt_Name);
         Email=findViewById(R.id.Sign_Up_Txt_EditTxt_Email);
         Phone=findViewById(R.id.Sign_Up_Txt_EditTxt_Phone);
@@ -70,12 +67,7 @@ public class A_SignUp extends AppCompatActivity implements View.OnClickListener 
 
         SignUp=findViewById(R.id.Sign_up_Btn_SignUp_7);
         SignUp.setOnClickListener(this);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+
 
     }
 
@@ -87,11 +79,13 @@ public class A_SignUp extends AppCompatActivity implements View.OnClickListener 
         {
             if (checkName(Name.getEditableText().toString()) && checkEmail(Email.getEditableText().toString()) && checkPhoneNumber(Phone.getEditableText().toString()) && checkPassword(Password.getEditableText().toString()) && checkConfirmPassword(Password.getEditableText().toString(),ConfirmPassword.getEditableText().toString()))
             {
+
                 storeInFirebase();
                 //startActivity(new Intent(this,A_SignIn.class));
             }
             else
             {
+
                 Toast.makeText(getApplicationContext(),"Check Every Field",Toast.LENGTH_LONG).show();
             }
         }
@@ -239,7 +233,14 @@ public class A_SignUp extends AppCompatActivity implements View.OnClickListener 
     }
 
 
+    public void backButton(View view) {
+        onBackPressed();
+    }
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getApplicationContext(), Splash1Activity.class);
+        startActivity(i);
+    }
 }

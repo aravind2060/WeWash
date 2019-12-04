@@ -7,10 +7,20 @@
     tools:context=".MyOrders.A_InsertMyOrders"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/DodgerBlue"
+        app:navigationIcon="@drawable/ic_arrow_back_black"
+        app:title="Order"
+        app:titleTextColor="@color/white"
+        android:id="@+id/OrderToolbar"/>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -83,7 +93,8 @@
            <com.google.android.material.textfield.TextInputLayout
                android:id="@+id/Txt_Input_Layout_MyOrders4"
                android:layout_width="match_parent"
-               android:layout_height="wrap_content">
+               android:layout_height="wrap_content"
+               android:layout_marginTop="5dp">
                <com.google.android.material.textfield.TextInputEditText
                    android:id="@+id/Address"
                    android:layout_width="match_parent"
@@ -91,13 +102,27 @@
                    android:hint="Address"
                     />
            </com.google.android.material.textfield.TextInputLayout>
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="5dp">
            <Button
                android:id="@+id/PickUpDate"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:text="Pick Up Date"
+               android:onClick="pickDate"
                />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/tv_date1"
+        />
+
+</LinearLayout>
 
 
             <TextView
@@ -140,12 +165,40 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Service"
+                android:textColor="@color/black"
+                android:fontFamily="sans-serif"
+                android:textSize="15sp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"/>
 
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/service"
+                android:textSize="20sp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:checked="true"
+                android:text="Cash on Delivery"
+                android:layout_marginTop="10dp"
+                android:buttonTint="@color/DodgerBlue"
+
+                />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rv1"
                 android:padding="20dp"
                 android:background="@color/DodgerBlue"
                 android:textSize="15sp"
@@ -154,8 +207,11 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:id="@+id/booknow"/>
+                android:id="@+id/booknow"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="10dp"
+
+                />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </LinearLayout>

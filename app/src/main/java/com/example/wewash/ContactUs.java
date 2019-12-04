@@ -1,6 +1,7 @@
 package com.example.wewash;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -8,11 +9,19 @@ import android.os.Bundle;
 import android.view.View;
 
 public class ContactUs extends AppCompatActivity {
+    Toolbar ContactTool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_us);
+        ContactTool=findViewById(R.id.ContactUsTool);
+        ContactTool.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
 
@@ -34,4 +43,8 @@ public class ContactUs extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ContactUs.this,MainActivity.class));
+    }
 }

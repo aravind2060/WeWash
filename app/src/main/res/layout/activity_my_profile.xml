@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/Toolbar_Update_page"
+        android:id="@+id/MyProfileTool"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/DodgerBlue"
@@ -69,23 +69,26 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:text="@string/Update_Profile"
         android:id="@+id/UpdateProfile"
-        android:background="@drawable/buttons"
+        android:background="@color/DodgerBlue"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:onClick="UpdateProfile"/>
+        android:onClick="UpdateProfile"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"/>
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:text="@string/Delete_Profile"
         android:id="@+id/DeleteProfile"
-        android:background="@drawable/buttons"
+        android:background="@color/DodgerBlue"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:onClick="DeleteProfile"
-        android:layout_marginTop="5dp"/>
+        android:onClick="Delete"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"/>
 
 
 </LinearLayout>

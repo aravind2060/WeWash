@@ -1,9 +1,11 @@
 package com.example.wewash.Profile;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,7 +16,9 @@ import android.widget.Toast;
 
 import com.example.wewash.D_CurrentUser;
 import com.example.wewash.Login.A_SignIn;
+import com.example.wewash.MainActivity;
 import com.example.wewash.R;
+import com.example.wewash.Splash1Activity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -27,7 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MyProfile extends AppCompatActivity {
     TextInputLayout Up_Name2,Up_Email2,Up_Phone2,Up_Password2;
     TextInputEditText Up_Name,Up_Email,Up_Phone,Up_Password;
-    Toolbar toolbar;
+    Toolbar MyProfiletoolbar;
+    AlertDialog.Builder builder;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
 
@@ -41,7 +46,13 @@ public class MyProfile extends AppCompatActivity {
         Up_Email2=findViewById(R.id.Up_Txt_Layout_2);
         Up_Phone2=findViewById(R.id.Up_Txt_Layout_3);
         //Up_Password2=findViewById(R.id.Up_Txt_Layout_4);
-        toolbar=findViewById(R.id.Toolbar_Update_page);
+        MyProfiletoolbar = findViewById(R.id.MyProfileTool);
+        MyProfiletoolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         Up_Name=findViewById(R.id.Update_Name);
         Up_Email=findViewById(R.id.Update_Email);
         Up_Phone=findViewById(R.id.Update_Phone);
@@ -57,8 +68,8 @@ public class MyProfile extends AppCompatActivity {
     public void UpdateProfile(View view) {
 
 
-        String name = Up_Name.getText().toString();
-        String phone = Up_Phone.getText().toString();
+        String name = Up_Name.getText().toString().trim();
+        String phone = Up_Phone.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(this, "Enter the name", Toast.LENGTH_SHORT).show();
@@ -84,28 +95,28 @@ public class MyProfile extends AppCompatActivity {
         }
     }
 
-    public void DeleteProfile(View view) {
+    public void DeleteProfile() {
+        firebaseUser=firebaseAuth.getCurrentUser();
                 String uid=firebaseUser.getUid();
-                clearAll();
-                deleteuserData(uid);
+        deleteuserData(uid);
                 firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Account deleted successfully", Toast.LENGTH_LONG).show();
                             removeCurrentUser();
-                            Intent intent=new Intent(MyProfile.this, A_SignIn.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
+                            clearAll();
                         }
                     }
                 });
+
+
             }
         public void clearAll()
         {
-            D_CurrentUser.setName("");
-            D_CurrentUser.setEmail("");
-            D_CurrentUser.setPhoneNumber("");
+            D_CurrentUser.setName(null);
+            D_CurrentUser.setEmail(null);
+            D_CurrentUser.setPhoneNumber(null);
         }
 
         public void deleteuserData(String uid)
@@ -117,7 +128,11 @@ public class MyProfile extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful())
                         Toast.makeText(getApplicationContext(),"Your application data deleted successfully",Toast.LENGTH_SHORT).show();
-                    Log.e("A_Account","Data deleted");
+                    Intent intent=new Intent(getApplicationContext(), A_SignIn.class);
+                    FirebaseAuth.getInstance().signOut();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }
             });
         }
@@ -125,8 +140,31 @@ public class MyProfile extends AppCompatActivity {
         {
             firebaseAuth.updateCurrentUser(null);
             Toast.makeText(getApplicationContext(),"Current user set to null",Toast.LENGTH_LONG).show();
-            Log.e("A_Account","Current user set to null");
         }
 
+    public void Delete(View view) {
+        builder = new AlertDialog.Builder(MyProfile.this);
+        builder.setTitle("Are you sure you want to Delete?");
+        builder.setMessage("To delete your account data permanently,click on Yes or else you can choose No").setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                DeleteProfile();
+                finish();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+
+//        DeleteProfile
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(MyProfile.this,Profile.class));
+    }
+}
 

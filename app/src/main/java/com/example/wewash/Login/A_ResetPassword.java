@@ -1,5 +1,6 @@
 package com.example.wewash.Login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -98,5 +99,17 @@ public class A_ResetPassword extends AppCompatActivity implements View.OnClickLi
                     }
                 });
 
+    }
+
+    public void back(View view) {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent i = new Intent(getApplicationContext(),A_SignIn.class);
+        startActivity(i);
     }
 }

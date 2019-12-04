@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/DodgerBlue"
     >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="@dimen/cardview_compat_inset_shadow"
         app:cardElevation="8dp"
         app:cardCornerRadius="@dimen/cardview_default_radius"
         android:layout_marginTop="10dp"
@@ -167,16 +167,17 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="10dp"
                 android:id="@+id/tv_time"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Order ID : "
+                android:text="Service :"
                 android:layout_below="@+id/tv_time"
                 android:textSize="20sp"
                 android:textColor="@color/black"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:id="@+id/order_card"/>
+                android:id="@+id/service_card"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -187,19 +188,103 @@
                 android:layout_toEndOf="@+id/order_card"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="10dp"
+                android:id="@+id/tv_service"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order ID : "
+                android:layout_below="@+id/tv_service"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/order_card"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_below="@+id/tv_service"
+                android:layout_toEndOf="@+id/order_card"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/tv_order"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/status"
+                android:layout_below="@id/tv_order">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/status1"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tv_order">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12.5sp"
+                android:text="Placed"
+                android:layout_gravity="left"
+                android:layout_weight="5"
+                android:textColor="@color/DodgerBlue"
+                android:id="@+id/placed"
+
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12.5sp"
+                    android:text="Picked"
+                    android:layout_weight="5"
+                    android:textColor="@color/DodgerBlue"
+                    android:id="@+id/picked"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12.5sp"
+                    android:text="Washed"
+                    android:layout_weight="5"
+                    android:textColor="@color/DodgerBlue"
+                    android:id="@+id/washed"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12.5sp"
+                    android:text="Fold/Iron"
+                    android:layout_weight="4"
+                    android:textColor="@color/DodgerBlue"
+                    android:id="@+id/Folded"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12.5sp"
+                    android:text="Delivered"
+
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="right"
+                    android:textColor="@color/DodgerBlue"
+                    android:id="@+id/delivered"
+                    />
+            </LinearLayout>
+            </LinearLayout>
 
             <ProgressBar
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:id="@+id/pb"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:progressDrawable="@drawable/customprogressbar"
-                android:layout_below="@+id/tv_order"
+                android:layout_below="@+id/status"
                 android:layout_marginBottom="10dp"/>
-
-
-
 
 
         </RelativeLayout>
